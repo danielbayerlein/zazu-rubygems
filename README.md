@@ -2,6 +2,12 @@
 
 > [Zazu](https://github.com/tinytacoteam/zazu) plugin to search for gems with [rubygems.org](https://rubygems.org)
 
+## Usage
+
+To use it simply type `gem` then the namem to search for. For example `gem pry`.
+
+![screenshot](./screenshot.png)
+
 ## Install
 
 Add `danielbayerlein/zazu-rubygems` inside of plugins block of your `~/.zazurc.json` file.
