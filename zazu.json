@@ -6,7 +6,7 @@
   "blocks": {
     "input": [
       {
-        "id": "npms",
+        "id": "rubygems",
         "type": "PrefixScript",
         "prefix": "gem",
         "space": true,
