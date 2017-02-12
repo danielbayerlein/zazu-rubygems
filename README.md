@@ -1,5 +1,7 @@
 # zazu-rubygems [![Build Status](https://travis-ci.org/danielbayerlein/zazu-rubygems.svg?branch=master)](https://travis-ci.org/danielbayerlein/zazu-rubygems)
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/danielbayerlein/zazu-rubygems.svg)](https://greenkeeper.io/)
+
 > [Zazu](https://github.com/tinytacoteam/zazu) plugin to search for gems with [rubygems.org](https://rubygems.org)
 
 ## Install
