@@ -4,7 +4,7 @@
 
 ## Usage
 
-To use it simply type `gem` then the namem to search for. For example `gem pry`.
+To use it simply type `gem` then the name to search for. For example `gem pretty-pro`.
 
 ![screenshot](./screenshot.png)
 
