@@ -1,14 +1,9 @@
 const got = require('got');
 
-const API_VERSION = 1;
-const GOT_OPTIONS = { json: true };
-
-const searchUrl = query => (
-  `https://rubygems.org/api/v${API_VERSION}/search.json?query=${query}`
-);
+const URL = 'https://rubygems.org/api/v1/search.json';
 
 module.exports.search = query => (
-  got(searchUrl(query), GOT_OPTIONS)
+  got(URL, { json: true, query: { query } })
     .then(response => (
       response.body.map(result => (
         {
