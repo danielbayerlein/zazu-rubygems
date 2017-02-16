@@ -4,14 +4,14 @@ const rubygems = require('../src/rubygems');
 describe('index.js', () => {
   beforeEach(() => {
     rubygems.search = jest.fn();
-    index()('rails');
+    index()('middleman-google-analytics');
   });
 
   afterEach(() => {
     jest.resetAllMocks();
   });
 
-  test('called rubygems.search with zazu', () => {
-    expect(rubygems.search).toBeCalledWith('rails');
+  test('call rubygems.search with "middleman-google-analytics"', () => {
+    expect(rubygems.search).toBeCalledWith('middleman-google-analytics');
   });
 });
