@@ -14,7 +14,7 @@ For example `gem pretty-pro`.
 
 ## Install
 
-Add `danielbayerlein/zazu-rubygems` inside of plugins block of your `~/.zazurc.json` file.
+Add `danielbayerlein/zazu-rubygems` inside of `plugins` block of your `~/.zazurc.json` file.
 
 ```json
 {
