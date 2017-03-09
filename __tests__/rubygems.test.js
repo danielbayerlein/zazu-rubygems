@@ -77,7 +77,7 @@ describe('rubygems.js', () => {
       })));
 
       return rubygems.search('middleman-google-analytics')
-        .catch(() => {
+        .then(() => {
           // eslint-disable-next-line no-console
           expect(console.error).toHaveBeenCalledWith(
             "Request is missing param 'query'",
