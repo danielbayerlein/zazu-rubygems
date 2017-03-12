@@ -1,3 +1,5 @@
+/* eslint global-require: 0 */
+
 describe('rubygems.js', () => {
   beforeEach(() => {
     jest.resetAllMocks();
@@ -7,14 +9,26 @@ describe('rubygems.js', () => {
   describe('search', () => {
     let got;
     let rubygems;
+    let cache;
+
+    const result = require('../__mocks__/result.json')[0];
+    const mockResult = {
+      title: result.name,
+      value: result.project_uri,
+      subtitle: result.info,
+    };
 
     beforeEach(() => {
       jest.mock('got');
-      got = require('got'); // eslint-disable-line global-require
-      rubygems = require('../src/rubygems'); // eslint-disable-line global-require
+      got = require('got');
+
+      jest.mock('cache-conf');
+      cache = { get: jest.fn(), isExpired: jest.fn(), set: jest.fn() };
+      require('cache-conf').mockImplementation(() => (cache));
+
+      rubygems = require('../src/rubygems');
 
       got.mockImplementation(() => new Promise(resolve => resolve({
-        // eslint-disable-next-line global-require
         body: require('../__mocks__/result.json'),
       })));
     });
@@ -44,27 +58,21 @@ describe('rubygems.js', () => {
     test('returns the expected title', () => (
       rubygems.search('middleman-google-analytics')
         .then((packages) => {
-          expect(packages[0].title).toBe('middleman-google-analytics');
+          expect(packages[0].title).toBe(mockResult.title);
         })
       ));
 
     test('returns the expected value', () => (
       rubygems.search('middleman-google-analytics')
         .then((packages) => {
-          expect(packages[0].value).toBe(
-            'https://rubygems.org/gems/middleman-google-analytics',
-          );
+          expect(packages[0].value).toBe(mockResult.value);
         })
       ));
 
     test('returns the expected subtitle', () => (
       rubygems.search('middleman-google-analytics')
         .then((packages) => {
-          expect(packages[0].subtitle).toBe(
-            'middleman-google-analytics is a Middleman extension that ' +
-            'generates Google Analytics tracking code, and keeps your ' +
-            'config in config.rb, where it belongs.',
-          );
+          expect(packages[0].subtitle).toBe(mockResult.subtitle);
         })
     ));
 
@@ -76,14 +84,66 @@ describe('rubygems.js', () => {
       })));
 
       return rubygems.search('middleman-google-analytics')
-        .catch((result) => {
-          expect(result.response.body).toBe("Request is missing param 'query'");
+        .catch((packages) => {
+          expect(packages.response.body).toBe("Request is missing param 'query'");
+        });
+    });
+
+    test('call cache.get with the expected arguments', () => (
+      rubygems.search('middleman-google-analytics')
+        .then(() => {
+          expect(cache.get).toBeCalledWith(
+            'zazu-rubygems.middleman-google-analytics',
+            { ignoreMaxAge: true },
+          );
+        })
+    ));
+
+    test('call cache.set with the expected arguments', () => (
+      rubygems.search('middleman-google-analytics')
+        .then(() => {
+          expect(cache.set).toBeCalledWith(
+            'zazu-rubygems.middleman-google-analytics',
+            [mockResult],
+            { maxAge: 3600000 },
+          );
+        })
+    ));
+
+    test('call cache.isExpired with the expected argument', () => {
+      cache.get = jest.fn(() => ([mockResult]));
+
+      return rubygems.search('middleman-google-analytics')
+        .then(() => {
+          expect(cache.isExpired).toBeCalledWith('zazu-rubygems.middleman-google-analytics');
+        });
+    });
+
+    test('returns the cache result', () => {
+      cache.isExpired = jest.fn(() => false);
+      cache.get = jest.fn(() => ([mockResult]));
+
+      return rubygems.search('middleman-google-analytics')
+        .then((packages) => {
+          expect(packages).toEqual([mockResult]);
+        });
+    });
+
+    test('returns the cache result when an error occurs', () => {
+      cache.isExpired = jest.fn(() => true);
+      cache.get = jest.fn(() => ([mockResult]));
+      got.mockImplementation(() => new Promise((resolve, reject) => reject()));
+
+      return rubygems.search('middleman-google-analytics')
+        .then((packages) => {
+          expect(packages).toEqual([mockResult]);
         });
     });
   });
 
   describe('integration', () => {
-    // eslint-disable-next-line global-require
+    jest.mock('cache-conf');
+
     const rubygems = require('../src/rubygems');
     const searchResult = rubygems.search('middleman-google-analytics');
 
