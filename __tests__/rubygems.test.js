@@ -12,11 +12,11 @@ describe('rubygems.js', () => {
     let cache;
 
     const result = require('../__mocks__/result.json')[0];
-    const mockResult = {
+    const mockResult = [{
       title: result.name,
       value: result.project_uri,
       subtitle: result.info,
-    };
+    }];
 
     beforeEach(() => {
       jest.mock('got');
@@ -58,21 +58,21 @@ describe('rubygems.js', () => {
     test('returns the expected title', () => (
       rubygems.search('middleman-google-analytics')
         .then((packages) => {
-          expect(packages[0].title).toBe(mockResult.title);
+          expect(packages[0].title).toBe(mockResult[0].title);
         })
       ));
 
     test('returns the expected value', () => (
       rubygems.search('middleman-google-analytics')
         .then((packages) => {
-          expect(packages[0].value).toBe(mockResult.value);
+          expect(packages[0].value).toBe(mockResult[0].value);
         })
       ));
 
     test('returns the expected subtitle', () => (
       rubygems.search('middleman-google-analytics')
         .then((packages) => {
-          expect(packages[0].subtitle).toBe(mockResult.subtitle);
+          expect(packages[0].subtitle).toBe(mockResult[0].subtitle);
         })
     ));
 
@@ -104,14 +104,14 @@ describe('rubygems.js', () => {
         .then(() => {
           expect(cache.set).toBeCalledWith(
             'zazu-rubygems.middleman-google-analytics',
-            [mockResult],
+            mockResult,
             { maxAge: 3600000 },
           );
         })
     ));
 
     test('call cache.isExpired with the expected argument', () => {
-      cache.get = jest.fn(() => ([mockResult]));
+      cache.get = jest.fn(() => (mockResult));
 
       return rubygems.search('middleman-google-analytics')
         .then(() => {
@@ -121,22 +121,22 @@ describe('rubygems.js', () => {
 
     test('returns the cache result', () => {
       cache.isExpired = jest.fn(() => false);
-      cache.get = jest.fn(() => ([mockResult]));
+      cache.get = jest.fn(() => (mockResult));
 
       return rubygems.search('middleman-google-analytics')
         .then((packages) => {
-          expect(packages).toEqual([mockResult]);
+          expect(packages).toEqual(mockResult);
         });
     });
 
     test('returns the cache result when an error occurs', () => {
       cache.isExpired = jest.fn(() => true);
-      cache.get = jest.fn(() => ([mockResult]));
+      cache.get = jest.fn(() => (mockResult));
       got.mockImplementation(() => new Promise((resolve, reject) => reject()));
 
       return rubygems.search('middleman-google-analytics')
         .then((packages) => {
-          expect(packages).toEqual([mockResult]);
+          expect(packages).toEqual(mockResult);
         });
     });
   });
