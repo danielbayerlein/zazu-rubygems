@@ -12,7 +12,6 @@ describe('rubygems.js', () => {
       jest.mock('got');
       got = require('got'); // eslint-disable-line global-require
       rubygems = require('../src/rubygems'); // eslint-disable-line global-require
-      console.error = jest.fn(); // eslint-disable-line no-console
 
       got.mockImplementation(() => new Promise(resolve => resolve({
         // eslint-disable-next-line global-require
@@ -69,7 +68,7 @@ describe('rubygems.js', () => {
         })
     ));
 
-    test('call console.error with an error message', () => {
+    test('returns the expected error', () => {
       got.mockImplementation(() => new Promise((resolve, reject) => reject({
         response: {
           body: "Request is missing param 'query'",
@@ -77,11 +76,8 @@ describe('rubygems.js', () => {
       })));
 
       return rubygems.search('middleman-google-analytics')
-        .then(() => {
-          // eslint-disable-next-line no-console
-          expect(console.error).toHaveBeenCalledWith(
-            "Request is missing param 'query'",
-          );
+        .catch((result) => {
+          expect(result.response.body).toBe("Request is missing param 'query'");
         });
     });
   });
