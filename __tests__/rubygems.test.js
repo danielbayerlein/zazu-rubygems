@@ -111,7 +111,7 @@ describe('rubygems.js', () => {
     ));
 
     test('call cache.isExpired with the expected argument', () => {
-      cache.get = jest.fn(() => (mockResult));
+      cache.get = jest.fn(() => mockResult);
 
       return rubygems.search('middleman-google-analytics')
         .then(() => {
@@ -121,7 +121,7 @@ describe('rubygems.js', () => {
 
     test('returns the cache result', () => {
       cache.isExpired = jest.fn(() => false);
-      cache.get = jest.fn(() => (mockResult));
+      cache.get = jest.fn(() => mockResult);
 
       return rubygems.search('middleman-google-analytics')
         .then((packages) => {
@@ -131,7 +131,7 @@ describe('rubygems.js', () => {
 
     test('returns the cache result when an error occurs', () => {
       cache.isExpired = jest.fn(() => true);
-      cache.get = jest.fn(() => (mockResult));
+      cache.get = jest.fn(() => mockResult);
       got.mockImplementation(() => new Promise((resolve, reject) => reject()));
 
       return rubygems.search('middleman-google-analytics')
