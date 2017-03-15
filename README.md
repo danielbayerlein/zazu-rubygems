@@ -8,7 +8,7 @@
 ## Usage
 
 To use it simply type `gem` then the name of the package to search for.
-For example `gem pretty-pro`.
+For example `gem middleman`.
 
 ![screenshot](./screenshot.png)
 
