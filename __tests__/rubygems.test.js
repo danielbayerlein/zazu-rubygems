@@ -13,6 +13,7 @@ describe('rubygems.js', () => {
 
     const result = require('../__mocks__/result.json')[0];
     const mockResult = [{
+      id: result.name,
       title: result.name,
       value: result.project_uri,
       subtitle: result.info,
@@ -52,6 +53,13 @@ describe('rubygems.js', () => {
       rubygems.search('middleman-google-analytics')
         .then((packages) => {
           expect(packages).toBeInstanceOf(Array);
+        })
+      ));
+
+    test('returns the expected id', () => (
+      rubygems.search('middleman-google-analytics')
+        .then((packages) => {
+          expect(packages[0].id).toBe(mockResult[0].id);
         })
       ));
 
@@ -150,6 +158,12 @@ describe('rubygems.js', () => {
     test('returns an array', () => (
       searchResult.then((packages) => {
         expect(packages).toBeInstanceOf(Array);
+      })
+    ));
+
+    test('returns an object with a id', () => (
+      searchResult.then((packages) => {
+        expect(packages[0].id).toBeDefined();
       })
     ));
 
