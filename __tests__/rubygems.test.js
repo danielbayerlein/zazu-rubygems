@@ -92,8 +92,8 @@ describe('rubygems.js', () => {
       })));
 
       return rubygems.search('middleman-google-analytics')
-        .catch((packages) => {
-          expect(packages.response.body).toBe("Request is missing param 'query'");
+        .catch((err) => {
+          expect(err.response.body).toBe("Request is missing param 'query'");
         });
     });
 

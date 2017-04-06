@@ -39,12 +39,12 @@ module.exports.search = (query) => {
 
         resolve(data);
       })
-      .catch((error) => {
+      .catch((err) => {
         if (cachedResponse) {
           resolve(cachedResponse);
         }
 
-        reject(error);
+        reject(err);
       })
   ));
 };
