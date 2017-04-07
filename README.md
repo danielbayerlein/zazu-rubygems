@@ -4,6 +4,7 @@
 
 [![Build Status](https://travis-ci.org/danielbayerlein/zazu-rubygems.svg?branch=master)](https://travis-ci.org/danielbayerlein/zazu-rubygems)
 [![codecov](https://codecov.io/gh/danielbayerlein/zazu-rubygems/branch/master/graph/badge.svg)](https://codecov.io/gh/danielbayerlein/zazu-rubygems)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Usage
 
