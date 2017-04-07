@@ -9,7 +9,7 @@ describe('rubygems.js', () => {
     let rubygems
     let cache
 
-    const result = require('../__mocks__/result.json')[0]
+    const result = require('../__mocks__/search.json')[0]
     const mockResult = [{
       id: result.name,
       title: result.name,
@@ -28,7 +28,7 @@ describe('rubygems.js', () => {
       rubygems = require('../src/rubygems')
 
       got.mockImplementation(() => new Promise((resolve) => resolve({
-        body: require('../__mocks__/result.json')
+        body: require('../__mocks__/search.json')
       })))
     })
 
