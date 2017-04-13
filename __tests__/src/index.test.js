@@ -1,5 +1,5 @@
-const index = require('../src/')
-const rubygems = require('../src/rubygems')
+const index = require('../../src/')
+const rubygems = require('../../src/rubygems')
 
 describe('index.js', () => {
   beforeEach(() => {

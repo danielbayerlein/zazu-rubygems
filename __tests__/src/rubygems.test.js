@@ -9,7 +9,7 @@ describe('rubygems.js', () => {
     let rubygems
     let cache
 
-    const result = require('../__mocks__/search.json')[0]
+    const result = require('../../__mocks__/search.json')[0]
     const mockResult = [{
       id: result.name,
       title: result.name,
@@ -25,10 +25,10 @@ describe('rubygems.js', () => {
       cache = { get: jest.fn(), isExpired: jest.fn(), set: jest.fn() }
       require('cache-conf').mockImplementation(() => cache)
 
-      rubygems = require('../src/rubygems')
+      rubygems = require('../../src/rubygems')
 
       got.mockImplementation(() => new Promise((resolve) => resolve({
-        body: require('../__mocks__/search.json')
+        body: require('../../__mocks__/search.json')
       })))
     })
 
@@ -153,7 +153,7 @@ describe('rubygems.js', () => {
   describe('integration', () => {
     jest.mock('cache-conf')
 
-    const rubygems = require('../src/rubygems')
+    const rubygems = require('../../src/rubygems')
     const searchResult = rubygems.search('middleman-google-analytics')
 
     test('returns an array', () => (
