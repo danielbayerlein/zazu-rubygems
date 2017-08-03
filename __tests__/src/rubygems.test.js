@@ -41,7 +41,8 @@ describe('rubygems.js', () => {
               json: true,
               query: {
                 query: 'middleman-google-analytics'
-              }
+              },
+              useElectronNet: false
             }
           )
         })

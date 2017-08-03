@@ -26,7 +26,7 @@ module.exports.search = (query) => {
   }
 
   return new Promise((resolve, reject) => (
-    got(URL, { json: true, query: { query } })
+    got(URL, { json: true, query: { query }, useElectronNet: false })
       .then((response) => {
         const data = response.body.map((result) => ({
           id: result.name,
